@@ -64,7 +64,7 @@ function saveSettings() {
 
 // Добавить гостя
 function addGuest() {
-    const nameInput = document.getElementById('guestName');
+    const nameInput = document.getElementById('guestNameInput');
     const dateInput = document.getElementById('guestBirthDate');
     
     const name = nameInput.value.trim();
@@ -203,6 +203,8 @@ function showCompatibilityForGuest(index) {
         result.guestName = currentGuest.name;
         result.guestIcon = currentGuest.icon;
         
+        console.log('Результат с именем гостя:', result.guestName);
+        
         state.results[state.currentGuestIndex] = result; // Сохраняем по индексу
         displayResult(result);
         
@@ -221,13 +223,25 @@ function displayResult(result) {
     
     // Устанавливаем значения - ИМЯ ГОСТЯ
     const guestNameElement = document.getElementById('guestName');
-    guestNameElement.textContent = result.guestName;
-    guestNameElement.style.animation = 'none';
-    setTimeout(() => {
-        guestNameElement.style.animation = 'fadeInScale 0.6s ease-out';
-    }, 10);
+    console.log('Обновляем имя гостя:', result.guestName);
+    console.log('Элемент найден:', guestNameElement);
     
-    document.getElementById('guestIcon').textContent = result.guestIcon;
+    if (guestNameElement && result.guestName) {
+        guestNameElement.textContent = result.guestName;
+        guestNameElement.style.animation = 'none';
+        setTimeout(() => {
+            guestNameElement.style.animation = 'fadeInScale 0.6s ease-out';
+        }, 10);
+    } else {
+        console.error('Ошибка: элемент guestName не найден или имя гостя пустое');
+    }
+    
+    const guestIconElement = document.getElementById('guestIcon');
+    if (guestIconElement && result.guestIcon) {
+        guestIconElement.textContent = result.guestIcon;
+    } else {
+        console.error('Ошибка: элемент guestIcon не найден или иконка гостя пустая');
+    }
     
     // Анимируем число с 0 до значения
     animateValue('compatValue', 0, result.index, 1000);
@@ -320,5 +334,47 @@ function animateValue(elementId, start, end, duration) {
         }
         element.textContent = Math.round(current);
     }, 16);
+}
+
+// Генерация случайных гостей
+function generateRandomGuests() {
+    const names = [
+        'Алексей', 'Дмитрий', 'Анастасия', 'Екатерина', 'Михаил',
+        'Ольга', 'Сергей', 'Мария', 'Андрей', 'Юлия',
+        'Никита', 'Дарья', 'Александр', 'Виктория', 'Павел',
+        'Елена', 'Иван', 'Софья', 'Максим', 'Полина',
+        'Артём', 'Анна', 'Владимир', 'Ксения', 'Роман',
+        'Валерия', 'Денис', 'Алина', 'Егор', 'Татьяна'
+    ];
+    
+    // Света родилась 30.10.1994, возраст примерно ±5 лет (1989-1999)
+    const startYear = 1989;
+    const endYear = 1999;
+    
+    // Перемешиваем имена
+    const shuffledNames = names.sort(() => Math.random() - 0.5).slice(0, 15);
+    
+    // Генерируем 15 гостей
+    shuffledNames.forEach(name => {
+        const year = startYear + Math.floor(Math.random() * (endYear - startYear + 1));
+        const month = Math.floor(Math.random() * 12) + 1;
+        const daysInMonth = new Date(year, month, 0).getDate();
+        const day = Math.floor(Math.random() * daysInMonth) + 1;
+        
+        const birthDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        
+        const guest = {
+            id: Date.now() + Math.random(), // Уникальный ID
+            name,
+            birthDate,
+            icon: getRandomIcon()
+        };
+        
+        state.guests.push(guest);
+    });
+    
+    saveState();
+    renderGuestsList();
+    alert('✨ Добавлено 15 случайных гостей!');
 }
 
