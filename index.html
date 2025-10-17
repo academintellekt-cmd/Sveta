@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Совместимость ✨ Магический расчёт</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/animations-extra.css">
+</head>
+<body>
+    <!-- Фон с звездами и луной -->
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <!-- Анимированная луна -->
+    <div class="moon"></div>
+    
+    <!-- Летающие звезды -->
+    <div class="shooting-stars">
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+    </div>
+    
+    <!-- Плавающие частицы -->
+    <div class="floating-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Экран настройки -->
+    <div id="setupScreen" class="screen active">
+        <div class="container">
+            <div class="cosmic-header">
+                <h1 class="title-main">
+                    <span class="glow">✨</span>
+                    Магический калькулятор совместимости
+                    <span class="glow">✨</span>
+                </h1>
+                <p class="subtitle">Узнай свою космическую связь со Светой</p>
+            </div>
+
+            <div class="setup-card">
+                <div class="card-glow"></div>
+                <h2>🌙 Света 🌙</h2>
+                <div style="text-align: center; padding: 20px 0;">
+                    <div style="font-size: 48px; margin-bottom: 20px;">🎂</div>
+                    <div style="font-size: 28px; font-weight: 700; background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink), var(--neon-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px;">30 октября 1994</div>
+                    <p style="color: var(--text-secondary); font-size: 16px;">Магия совместимости началась ✨</p>
+                </div>
+                <button class="btn-primary" onclick="saveSettings()">
+                    <span class="btn-icon">🌟</span>
+                    Начать расчёты
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Экран добавления участников -->
+    <div id="guestsScreen" class="screen">
+        <div class="container">
+            <div class="cosmic-header">
+                <h1 class="title-main">Добавь гостей</h1>
+                <p class="subtitle">Каждый готов узнать свою совместимость?</p>
+            </div>
+
+            <div class="guests-panel">
+                <div class="add-guest-card">
+                    <div class="card-glow"></div>
+                    <h3>Новый участник</h3>
+                    <div class="form-group">
+                        <label>Имя</label>
+                        <input type="text" id="guestName" placeholder="Введи имя" onkeypress="if(event.key==='Enter') addGuest()">
+                    </div>
+                    <div class="form-group">
+                        <label>Дата рождения</label>
+                        <input type="date" id="guestBirthDate">
+                    </div>
+                    <button class="btn-primary" onclick="addGuest()">
+                        <span class="btn-icon">➕</span>
+                        Добавить
+                    </button>
+                </div>
+
+                <div class="guests-list-container">
+                    <h3>Список участников <span class="count" id="guestCount">0</span></h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 15px;">Кликни на гостя чтобы проверить совместимость со Светой</p>
+                    <div class="guests-list" id="guestsList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Экран результата -->
+    <div id="resultScreen" class="screen">
+        <div class="container">
+            <!-- Анимация мандалы -->
+            <div class="mandala-container" id="mandalaContainer">
+                <canvas id="mandalaCanvas" width="400" height="400"></canvas>
+                <div class="mandala-center">
+                    <div class="calculating-text">Вычисляем космическую связь...</div>
+                </div>
+            </div>
+
+            <!-- Результат -->
+            <div class="result-container" id="resultContainer" style="display: none;">
+                <div class="result-header">
+                    <div class="person-sigil">
+                        <div class="sigil-icon">🌙</div>
+                        <div class="person-name" style="font-size: 22px; font-weight: 700; color: var(--neon-cyan);">Света</div>
+                    </div>
+                    <div class="compatibility-ring">
+                        <svg viewBox="0 0 120 120">
+                            <circle cx="60" cy="60" r="54" class="ring-bg"/>
+                            <circle cx="60" cy="60" r="54" class="ring-progress" id="compatRing"/>
+                        </svg>
+                        <div class="compatibility-value">
+                            <span class="value" id="compatValue">0</span>
+                            <span class="percent">%</span>
+                        </div>
+                        <div class="compatibility-label">Совместимость</div>
+                    </div>
+                    <div class="person-sigil">
+                        <div class="sigil-icon" id="guestIcon">⭐</div>
+                        <div class="person-name" id="guestName" style="font-size: 22px; font-weight: 700; color: var(--neon-pink);">Гость</div>
+                    </div>
+                </div>
+
+                <div class="interpretation-cards">
+                    <div class="interp-card strength">
+                        <div class="card-glow"></div>
+                        <div class="card-icon">💎</div>
+                        <h3>Сильные стороны</h3>
+                        <p id="strengthText">Загрузка...</p>
+                    </div>
+
+                    <div class="interp-card risk">
+                        <div class="card-glow"></div>
+                        <div class="card-icon">⚠️</div>
+                        <h3>Зоны внимания</h3>
+                        <p id="riskText">Загрузка...</p>
+                    </div>
+
+                    <div class="interp-card advice">
+                        <div class="card-glow"></div>
+                        <div class="card-icon">🌟</div>
+                        <h3>Космический совет</h3>
+                        <p id="adviceText">Загрузка...</p>
+                    </div>
+                </div>
+
+                <div class="glyphs-container">
+                    <div class="glyph" title="Жизненный путь">
+                        <span class="glyph-icon">🌠</span>
+                        <span class="glyph-value" id="glyphLifePath">0</span>
+                    </div>
+                    <div class="glyph" title="Знаки зодиака">
+                        <span class="glyph-icon">♈</span>
+                        <span class="glyph-value" id="glyphZodiac">0</span>
+                    </div>
+                    <div class="glyph" title="Элементы">
+                        <span class="glyph-icon">🔥</span>
+                        <span class="glyph-value" id="glyphElements">0</span>
+                    </div>
+                    <div class="glyph" title="Энергия">
+                        <span class="glyph-icon">⚡</span>
+                        <span class="glyph-value" id="glyphEnergy">0</span>
+                    </div>
+                </div>
+
+                <button class="btn-magic" onclick="showMagicFact()">
+                    <span class="sparkle">✨</span>
+                    Показать магический факт
+                    <span class="sparkle">✨</span>
+                </button>
+
+                <div class="magic-fact" id="magicFact" style="display: none;">
+                    <p id="magicFactText"></p>
+                </div>
+
+                <div class="navigation-buttons">
+                    <button class="btn-secondary" onclick="nextGuest()">
+                        Следующий участник →
+                    </button>
+                    <button class="btn-tertiary" onclick="backToGuestList()">
+                        ← Вернуться к списку
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/compute.js"></script>
+    <script src="scripts/animations.js"></script>
+</body>
+</html>
+

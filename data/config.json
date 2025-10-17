@@ -1,0 +1,20 @@
+{
+  "svetaBirth": "1995-06-15",
+  "weights": {
+    "lifepath": 0.35,
+    "sign": 0.30,
+    "elements": 0.20,
+    "misc": 0.15
+  },
+  "dataSource": "local",
+  "animations": {
+    "enabled": true,
+    "durationMs": 3000
+  },
+  "theme": {
+    "primaryColor": "#a855f7",
+    "secondaryColor": "#ec4899",
+    "accentColor": "#06b6d4"
+  }
+}
+
