@@ -82,7 +82,7 @@ function addGuest() {
         icon: getRandomIcon()
     };
     
-    state.guests.push(guest);
+    state.guests.unshift(guest);
     saveState();
     renderGuestsList();
     
@@ -111,10 +111,12 @@ function renderGuestsList() {
         return;
     }
     
-    list.innerHTML = state.guests.map((guest, index) => `
+    list.innerHTML = state.guests.map((guest, index) => {
+        const zodiacSign = getZodiacSign(guest.birthDate);
+        return `
         <div class="guest-item" onclick="checkGuestCompatibility(${index})" title="Нажми чтобы проверить совместимость">
             <div class="guest-info">
-                <div class="guest-avatar">${guest.icon}</div>
+                <div class="guest-avatar">${zodiacSign.icon}</div>
                 <div class="guest-details">
                     <h4>${guest.name}</h4>
                     <p>${formatDate(guest.birthDate)}</p>
@@ -122,7 +124,8 @@ function renderGuestsList() {
             </div>
             <button class="guest-remove" onclick="event.stopPropagation(); removeGuest(${guest.id})">✕</button>
         </div>
-    `).join('');
+    `;
+    }).join('');
 }
 
 // Форматирование даты
@@ -134,7 +137,7 @@ function formatDate(dateString) {
 
 // Рандомная иконка для гостя
 function getRandomIcon() {
-    const icons = ['⭐', '🌟', '✨', '💫', '🌙', '☀️', '🌈', '🦋', '🌸', '🍀', '🎭', '🎨', '🎪', '🎯', '🎲'];
+    const icons = ['🔵', '🔷', '🔹', '💙', '🔵', '🔷', '🔹', '💙', '🔵', '🔷', '🔹', '💙', '🔵', '🔷', '🔹'];
     return icons[Math.floor(Math.random() * icons.length)];
 }
 
@@ -370,7 +373,7 @@ function generateRandomGuests() {
             icon: getRandomIcon()
         };
         
-        state.guests.push(guest);
+        state.guests.unshift(guest);
     });
     
     saveState();

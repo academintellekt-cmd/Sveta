@@ -178,8 +178,8 @@ body {
     }
 }
 
-/* Летающие звезды */
-.shooting-stars {
+/* Млечный путь - статичные звезды */
+.milky-way {
     position: fixed;
     top: 0;
     left: 0;
@@ -187,85 +187,115 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 1;
-    overflow: hidden;
+    background: 
+        radial-gradient(ellipse at 20% 30%, rgba(255,255,255,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 70%, rgba(255,255,255,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.03) 0%, transparent 80%);
 }
 
-.shooting-star {
+.twinkling-star {
     position: absolute;
-    width: 4px;
-    height: 4px;
-    background: radial-gradient(circle, white 0%, rgba(255,255,255,0.5) 50%, transparent 100%);
     border-radius: 50%;
-    box-shadow: 0 0 15px 3px rgba(255, 255, 255, 0.9);
-    animation: shoot 4s ease-out infinite;
-    opacity: 0;
+    background: radial-gradient(circle, 
+        rgba(255,255,255,0.7) 0%, 
+        rgba(255,255,255,0.4) 40%, 
+        rgba(255,255,255,0.1) 70%, 
+        transparent 100%);
+    box-shadow: 
+        0 0 2px rgba(255,255,255,0.4),
+        0 0 4px rgba(255,255,255,0.2);
+    animation: twinkle 6s ease-in-out infinite;
 }
 
-.shooting-star:nth-child(1) {
-    top: 5%;
-    left: 5%;
-    animation-delay: 0s;
-    animation-duration: 3.5s;
-}
-
-.shooting-star:nth-child(2) {
-    top: 25%;
-    left: 15%;
-    animation-delay: 2s;
-    animation-duration: 3s;
-}
-
-.shooting-star:nth-child(3) {
-    top: 45%;
-    left: 10%;
-    animation-delay: 4s;
-    animation-duration: 3.2s;
-}
-
-.shooting-star:nth-child(4) {
-    top: 15%;
-    left: 30%;
-    animation-delay: 6s;
-    animation-duration: 3.8s;
-}
-
-.shooting-star:nth-child(5) {
-    top: 60%;
-    left: 20%;
-    animation-delay: 8s;
-    animation-duration: 3.3s;
-}
-
-@keyframes shoot {
-    0% {
-        transform: translateX(0) translateY(0);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    90% {
-        opacity: 1;
-    }
-    100% {
-        transform: translateX(300px) translateY(300px);
-        opacity: 0;
-    }
-}
-
-.shooting-star::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 80px;
+.twinkling-star:nth-child(1) {
+    width: 2px;
     height: 2px;
-    background: linear-gradient(90deg, 
-        rgba(255,255,255,0) 0%, 
-        rgba(255,255,255,1) 20%,
-        rgba(255,255,255,0.4) 100%);
-    transform: translate(-100%, -50%) rotate(45deg);
-    transform-origin: right center;
+    top: 15%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.twinkling-star:nth-child(2) {
+    width: 1px;
+    height: 1px;
+    top: 25%;
+    left: 35%;
+    animation-delay: 0.5s;
+}
+
+.twinkling-star:nth-child(3) {
+    width: 3px;
+    height: 3px;
+    top: 40%;
+    left: 15%;
+    animation-delay: 1s;
+}
+
+.twinkling-star:nth-child(4) {
+    width: 1px;
+    height: 1px;
+    top: 60%;
+    left: 25%;
+    animation-delay: 1.5s;
+}
+
+.twinkling-star:nth-child(5) {
+    width: 2px;
+    height: 2px;
+    top: 30%;
+    left: 60%;
+    animation-delay: 2s;
+}
+
+.twinkling-star:nth-child(6) {
+    width: 1px;
+    height: 1px;
+    top: 70%;
+    left: 40%;
+    animation-delay: 2.5s;
+}
+
+.twinkling-star:nth-child(7) {
+    width: 2px;
+    height: 2px;
+    top: 50%;
+    left: 70%;
+    animation-delay: 3s;
+}
+
+.twinkling-star:nth-child(8) {
+    width: 1px;
+    height: 1px;
+    top: 80%;
+    left: 60%;
+    animation-delay: 0.3s;
+}
+
+.twinkling-star:nth-child(9) {
+    width: 2px;
+    height: 2px;
+    top: 10%;
+    left: 80%;
+    animation-delay: 1.8s;
+}
+
+.twinkling-star:nth-child(10) {
+    width: 1px;
+    height: 1px;
+    top: 35%;
+    left: 85%;
+    animation-delay: 2.2s;
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
 }
 
 /* Плавающие частицы */
@@ -474,14 +504,16 @@ body {
 /* Карточки */
 .setup-card, .add-guest-card {
     background: var(--card-bg);
-    border: 1px solid var(--card-border);
+    border: 2px solid var(--card-border);
     border-radius: 20px;
-    padding: 40px;
-    max-width: 500px;
+    padding: 20px;
     margin: 0 auto;
     backdrop-filter: blur(10px);
     position: relative;
     overflow: hidden;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .card-glow {
@@ -496,7 +528,6 @@ body {
         var(--glow-cyan) 50%,
         transparent 70%);
     opacity: 0.3;
-    animation: rotate-glow 8s linear infinite, pulse-glow 2s ease-in-out infinite;
 }
 
 @keyframes pulse-glow {
@@ -511,9 +542,9 @@ body {
 
 .setup-card h2, .add-guest-card h3 {
     font-family: 'Inter', sans-serif;
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 700;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     text-align: center;
     color: var(--neon-cyan);
     letter-spacing: 1px;
@@ -521,7 +552,7 @@ body {
 
 /* Формы */
 .form-group {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     position: relative;
     z-index: 1;
 }
@@ -576,15 +607,14 @@ body {
     background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink), var(--neon-cyan));
     background-size: 200% 200%;
     color: white;
-    box-shadow: 0 0 30px var(--glow-purple), 0 0 60px var(--glow-pink), 0 5px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 5px 30px rgba(0,0,0,0.5);
     width: 100%;
-    animation: gradient-shift 3s ease infinite;
     border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 0 50px var(--glow-purple), 0 0 80px var(--glow-pink), 0 10px 40px rgba(0,0,0,0.7);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
 }
 
 @keyframes gradient-shift {
@@ -600,7 +630,6 @@ body {
     box-shadow: 0 0 30px var(--glow-cyan), 0 0 60px var(--glow-blue), 0 5px 30px rgba(0,0,0,0.5);
     width: 100%;
     margin-top: 20px;
-    animation: gradient-shift 3s ease infinite;
     border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -634,7 +663,6 @@ body {
     box-shadow: 0 0 40px rgba(255, 255, 0, 0.8), 0 0 60px rgba(255, 0, 128, 0.6);
     margin: 30px auto;
     display: flex;
-    animation: gradient-shift 3s ease infinite, magic-glow 1.5s ease-in-out infinite;
     border: 3px solid rgba(255, 255, 255, 0.6);
 }
 
@@ -664,16 +692,158 @@ body {
 /* Список гостей */
 .guests-panel {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: start;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    align-items: stretch;
+    max-height: 60vh;
+}
+
+/* Карточка Светы */
+.sveta-card {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.sveta-photo {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.sveta-photo img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--neon-purple);
+    box-shadow: 0 0 20px rgba(217, 70, 239, 0.5);
+}
+
+.photo-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    margin: 0 auto;
+    border: 3px solid var(--neon-purple);
+    box-shadow: 0 0 20px rgba(217, 70, 239, 0.5);
+    text-align: center;
+    line-height: 0.8;
+    padding: 0;
+    position: relative;
+    padding-top: 20px;
+}
+
+.sveta-info h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--neon-purple);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Круг для гостя */
+.guest-photo {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.mystery-symbol {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin: 0 auto;
+    border: 3px solid var(--neon-cyan);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    text-align: center;
+    line-height: 0.8;
+    padding: 0;
+    position: relative;
+}
+
+@keyframes mystery-pulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+        transform: scale(1.05);
+    }
+}
+
+.birth-date {
+    font-size: 16px;
+    color: var(--neon-cyan);
+    text-align: center;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.zodiac-sign {
+    font-size: 18px;
+    color: var(--neon-pink);
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-shadow: 0 0 8px rgba(255, 0, 128, 0.4);
+}
+
+.natal-facts {
+    font-size: 16px;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.natal-facts p {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.natal-facts p::before {
+    font-size: 18px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.guests-list-container {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .guests-list-container h3 {
     font-family: 'Inter', sans-serif;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     color: var(--neon-cyan);
 }
 
@@ -687,9 +857,28 @@ body {
 }
 
 .guests-list {
-    max-height: 500px;
+    max-height: 200px;
     overflow-y: auto;
     padding-right: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--neon-purple) transparent;
+}
+
+.guests-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.guests-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.guests-list::-webkit-scrollbar-thumb {
+    background: var(--neon-purple);
+    border-radius: 3px;
+}
+
+.guests-list::-webkit-scrollbar-thumb:hover {
+    background: var(--neon-pink);
 }
 
 .guest-item {
@@ -801,7 +990,6 @@ body {
     font-size: 18px;
     color: var(--neon-cyan);
     font-weight: 600;
-    animation: pulse-text 1.5s ease-in-out infinite;
 }
 
 @keyframes pulse-text {
@@ -811,7 +999,6 @@ body {
 
 /* Результат */
 .result-container {
-    animation: fadeInUp 0.8s ease-out;
 }
 
 @keyframes fadeInUp {
@@ -854,7 +1041,6 @@ body {
     box-shadow: 0 0 40px var(--glow-purple), 
                 0 0 60px var(--glow-pink),
                 0 0 80px var(--glow-cyan);
-    animation: float 3s ease-in-out infinite, gradient-shift 4s ease infinite, pulse-ring 1.5s ease-in-out infinite;
     border: 3px solid rgba(255, 255, 255, 0.5);
 }
 
@@ -1123,6 +1309,11 @@ body {
 
     .guests-panel {
         grid-template-columns: 1fr;
+    }
+    
+    .sveta-card {
+        order: -1;
+        margin-bottom: 20px;
     }
 
     .result-header {

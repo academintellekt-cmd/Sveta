@@ -16,13 +16,18 @@
     <!-- Анимированная луна -->
     <div class="moon"></div>
     
-    <!-- Летающие звезды -->
-    <div class="shooting-stars">
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
+    <!-- Млечный путь - статичные звезды -->
+    <div class="milky-way">
+        <div class="twinkling-star"></div>
+        <div class="twinkling-star"></div>
+        <div class="twinkling-star"></div>
+        <div class="twinkling-star"></div>
+        <div class="twinkling-star"></div>
+        <div class="twinkling-star"></div>
+        <div class="twinkling-star"></div>
+        <div class="twinkling-star"></div>
+        <div class="twinkling-star"></div>
+        <div class="twinkling-star"></div>
     </div>
     
     <!-- Плавающие частицы -->
@@ -69,21 +74,43 @@
     <div id="guestsScreen" class="screen">
         <div class="container">
             <div class="cosmic-header">
-                <h1 class="title-main">Добавь гостей</h1>
-                <p class="subtitle">Каждый готов узнать свою совместимость?</p>
+                <h1 class="title-main">✨ СВЕТЛАННАЯ КАРТА ✨</h1>
+                <p class="subtitle">самый правдивый расчет совместимости</p>
             </div>
 
             <div class="guests-panel">
+                <!-- Карточка Светы -->
+                <div class="sveta-card">
+                    <div class="sveta-photo">
+                        <img src="https://insveta.ru/wp-content/uploads/2024/01/sveta-photo.jpg" alt="Света" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="photo-placeholder" style="display: none;">🍭</div>
+                    </div>
+                    <div class="sveta-info">
+                        <h3>Света</h3>
+                        <p class="birth-date">30.10.1994</p>
+                        <p class="zodiac-sign">♏ Скорпион</p>
+                        <div class="natal-facts">
+                            <p>🔍 Видит людей насквозь</p>
+                            <p>🤐 Мастер хранения секретов</p>
+                            <p>🎭 Магнит для приключений</p>
+                            <p>🛡️ Верный друг до конца</p>
+                            <p>💬 Человек-сарказм</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="add-guest-card">
-                    <div class="card-glow"></div>
-                    <h3>Новый участник</h3>
+                    <div class="guest-photo">
+                        <div class="mystery-symbol">❓</div>
+                    </div>
+                    <h3>Гость</h3>
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" id="guestNameInput" placeholder="Введи имя" onkeypress="if(event.key==='Enter') addGuest()">
                     </div>
                     <div class="form-group">
                         <label>Дата рождения</label>
-                        <input type="date" id="guestBirthDate">
+                        <input type="date" id="guestBirthDate" min="1970-01-01" max="2010-12-31" value="1990-01-01">
                     </div>
                     <button class="btn-primary" onclick="addGuest()">
                         <span class="btn-icon">➕</span>
@@ -92,11 +119,8 @@
                 </div>
 
                 <div class="guests-list-container">
-                    <h3>Список участников <span class="count" id="guestCount">0</span></h3>
-                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 15px;">Кликни на гостя чтобы проверить совместимость со Светой</p>
-                    <button class="btn-secondary" onclick="generateRandomGuests()" style="width: 100%; margin-bottom: 15px;">
-                        🎲 Добавить 15 случайных гостей
-                    </button>
+                    <h3>Спидометр гармонии <span class="count" id="guestCount">0</span></h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 15px;">Кликни на участника чтобы раскрыть его совместимость со Светой</p>
                     <div class="guests-list" id="guestsList"></div>
                 </div>
             </div>
@@ -109,10 +133,8 @@
             <!-- Анимация мандалы -->
             <div class="mandala-container" id="mandalaContainer">
                 <canvas id="mandalaCanvas" width="400" height="400"></canvas>
-                <div class="mandala-center">
-                    <div class="calculating-text">Вычисляем космическую связь...</div>
-                </div>
             </div>
+            <div class="calculating-text" style="text-align: center; margin-top: 20px;">Вычисляем космическую связь...</div>
 
             <!-- Результат -->
             <div class="result-container" id="resultContainer" style="display: none;">
