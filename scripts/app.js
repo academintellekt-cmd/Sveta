@@ -184,6 +184,7 @@ function showCompatibilityForGuest(index) {
     // Показываем мандалу и анимацию
     document.getElementById('mandalaContainer').style.display = 'block';
     document.getElementById('resultContainer').style.display = 'none';
+    document.getElementById('calculatingText').style.display = 'block';
     
     // Очищаем магический факт
     document.getElementById('magicFact').style.display = 'none';
@@ -202,9 +203,18 @@ function showCompatibilityForGuest(index) {
         
         console.log('Расчёт для:', currentGuest.name, currentGuest.birthDate);
         
-        const result = calculateCompatibility(state.svetaDate, currentGuest.birthDate);
+        const result = calculateCompatibility(state.svetaDate, currentGuest.birthDate, currentGuest.name);
         result.guestName = currentGuest.name;
         result.guestIcon = currentGuest.icon;
+
+        const normalizedName = (currentGuest.name || '').trim().toLowerCase();
+        if (normalizedName === 'роман') {
+            result.index = 110;
+            result.insight = result.insight
+                ? `${result.insight} Космос подмигивает: для Романа шкала честно призналась и зависла на 110%.`
+                : 'Космос подмигивает: для Романа шкала честно призналась и зависла на 110%.';
+            result.isRomanOverride = true;
+        }
         
         console.log('Результат с именем гостя:', result.guestName);
         
@@ -223,6 +233,7 @@ function displayResult(result) {
     // Скрываем мандалу
     document.getElementById('mandalaContainer').style.display = 'none';
     document.getElementById('resultContainer').style.display = 'block';
+    document.getElementById('calculatingText').style.display = 'none';
     
     // Устанавливаем значения - ИМЯ ГОСТЯ
     const guestNameElement = document.getElementById('guestName');
@@ -252,26 +263,21 @@ function displayResult(result) {
     // Анимация кольца
     const ring = document.getElementById('compatRing');
     const circumference = 339.292;
-    const offset = circumference - (result.index / 100 * circumference);
-    ring.style.strokeDashoffset = offset;
+    const ringProgress = Math.min(Math.max(result.index, 0), 100);
+    ring.style.strokeDashoffset = circumference - (ringProgress / 100 * circumference);
     
-    // Устанавливаем тексты
-    document.getElementById('strengthText').textContent = result.interpretations.strength;
-    document.getElementById('riskText').textContent = result.interpretations.risk;
-    document.getElementById('adviceText').textContent = result.interpretations.advice;
-    
-    // Глифы
-    document.getElementById('glyphLifePath').textContent = Math.round(result.metrics.lifepathMatch);
-    document.getElementById('glyphZodiac').textContent = Math.round(result.metrics.signAffinity);
-    document.getElementById('glyphElements').textContent = Math.round(result.metrics.elementBalance);
-    document.getElementById('glyphEnergy').textContent = Math.round(result.metrics.extras);
-    
-    // Обновляем иконку знака гостя
-    document.getElementById('guestIcon').textContent = result.guestSign.icon;
-    
-    // Скрываем магический факт
-    document.getElementById('magicFact').style.display = 'none';
-}
+    // Инсайт совместимости
+    const insightElement = document.getElementById('insightText');
+    if (insightElement) {
+        insightElement.textContent = result.insight || 'Космос пока шепчет, обнови расчёт.';
+    }
+ 
+     // Обновляем иконку знака гостя
+     document.getElementById('guestIcon').textContent = result.guestSign.icon;
+     
+     // Скрываем магический факт
+     document.getElementById('magicFact').style.display = 'none';
+ }
 
 // Показать магический факт
 function showMagicFact() {
